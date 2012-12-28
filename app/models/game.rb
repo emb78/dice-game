@@ -14,7 +14,7 @@ class Game
 
   def restart
     @stage = 1
-    return "First person to roll a three is the new 3 man!"
+    return "First person to roll a three is the new 3 man! Tap or shake to roll."
   end
 
   def rolled3man dice1
