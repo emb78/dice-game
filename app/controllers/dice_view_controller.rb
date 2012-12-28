@@ -35,6 +35,12 @@ class DiceViewController < UIViewController
     end
   end
 
+
+  def shake_event
+    puts "shake event"
+    rollDice
+  end
+
   #--------------------
   
   private
