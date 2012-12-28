@@ -6,3 +6,6 @@ credit the background texture to subtlepatterns.com
 
 color scheme
 http://www.mbaarc.com/
+
+competition
+https://itunes.apple.com/us/app/three-man-drink-up/id391899347?mt=8
