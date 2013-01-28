@@ -4,8 +4,6 @@ class DiceViewController < UIViewController
     self.view = UIImageView.alloc.init
   end
   
-  #--------------------
-  
   def viewDidLoad
     @light_gray = UIColor.colorWithRed(0.93, green: 0.93, blue: 0.93, alpha: 1)
     @marroon = UIColor.colorWithRed(165/255.0, green: 15/255.0, blue: 56/255.0, alpha: 1)
@@ -27,17 +25,16 @@ class DiceViewController < UIViewController
     recognizer = UITapGestureRecognizer.alloc.initWithTarget(self, action: 'rollDice')
     view.addGestureRecognizer(recognizer)
 
+    @info_button = makeInfoButton
+    view.addSubview @info_button
+
     if @game.in_round?
-      @new_round_button ||= makeNewRoundButton
-      view.addSubview @new_round_button
       @second_dice_view ||= makeSecondDiceImage
       view.addSubview(@second_dice_view)
     end
   end
 
-
   def shake_event
-    puts "shake event"
     rollDice
   end
 
@@ -50,8 +47,6 @@ class DiceViewController < UIViewController
       dice_roll = @dice.randomAnswer
       animateRoll(dice_roll, nil, @game.rolled3man(dice_roll))
       if dice_roll == 3
-        @new_round_button ||= makeNewRoundButton
-        view.addSubview @new_round_button
         @second_dice_view ||= makeSecondDiceImage
         view.addSubview(@second_dice_view)
       end
@@ -93,11 +88,11 @@ class DiceViewController < UIViewController
 
   def newRound
     animateRoll nil, nil, @game.restart
-    @new_round_button.removeFromSuperview
-    @second_dice_view.removeFromSuperview
+    @info_view_controller.view.removeFromSuperview
+    if !@second_dice_view.nil?
+      @second_dice_view.removeFromSuperview
+    end
   end
-
-  #--------------------
   
   def makeLabel
     labelOpts = {
@@ -131,15 +126,10 @@ class DiceViewController < UIViewController
     label
   end
 
-  def makeNewRoundButton
-    button ||= UIButton.buttonWithType UIButtonTypeRoundedRect
-    button.setTitle "New Round", forState: UIControlStateNormal
-    button.frame = [[210, 420], [100, 30]]
-    button.addTarget(self, action: 'newRound', forControlEvents: UIControlEventTouchUpInside)
-
-    button.setTitleColor(UIColor.darkGrayColor, forState: UIControlStateNormal)
-    button.setBackgroundColor(@light_gray, forState:UIControlStateHighlighted)
-    button.setBackgroundColor(@light_gray, forState:UIControlEventTouchUpInside)
+  def makeInfoButton
+    button ||= UIButton.buttonWithType UIButtonTypeInfoDark
+    button.frame = [[280, 350], [30, 30]]
+    button.addTarget(self, action: 'viewInfo', forControlEvents: UIControlEventTouchUpInside)
     button
   end
 
@@ -157,5 +147,20 @@ class DiceViewController < UIViewController
 
   def changeDiceImage(imageView, number)
     imageView.setImage(UIImage.imageNamed("#{number}.png"))
+  end
+
+  def viewInfo
+    @info_view_controller = InfoViewController.alloc.init
+    @info_view_controller.view.addSubview(makeNewRoundButton)
+    self.view.addSubview( @info_view_controller.view )
+  end
+
+  def makeNewRoundButton
+    button ||= UIButton.buttonWithType UIButtonTypeRoundedRect
+    button.setTitle "New Round", forState: UIControlStateNormal
+    button.frame = [[20, 400], [280, 40]]
+    button.addTarget(self, action: 'newRound', forControlEvents: UIControlEventTouchUpInside)
+    button.setTitleColor(UIColor.darkGrayColor, forState: UIControlStateNormal)
+    button
   end
 end

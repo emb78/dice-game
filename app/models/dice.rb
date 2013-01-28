@@ -5,13 +5,9 @@ class Dice
     @answers = loadAnswers
   end
   
-  #---------------------
-  
   def randomAnswer
     @answers.sample
   end
-
-  #---------------------
   
   def loadAnswers
     answerFile = NSBundle.mainBundle.pathForResource('answers', ofType: 'json')
@@ -38,7 +34,6 @@ class Dice
     json['answers']
   end
 
-  #---------------------
 
   private
   
