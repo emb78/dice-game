@@ -156,11 +156,12 @@ class DiceViewController < UIViewController
   end
 
   def makeNewRoundButton
-    button ||= UIButton.buttonWithType UIButtonTypeRoundedRect
-    button.setTitle "New Round", forState: UIControlStateNormal
+    button = UIButton.buttonWithType(UIButtonTypeCustom)
     button.frame = [[20, 400], [280, 40]]
+    button.setTitle("New Round", forState:UIControlStateNormal)
+    button.titleLabel.font = UIFont.boldSystemFontOfSize(18)
+    button.setBackgroundImage( UIImage.imageNamed("btnPink"), forState:UIControlStateNormal)
     button.addTarget(self, action: 'newRound', forControlEvents: UIControlEventTouchUpInside)
-    button.setTitleColor(UIColor.darkGrayColor, forState: UIControlStateNormal)
     button
   end
 end

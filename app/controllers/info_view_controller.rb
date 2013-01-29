@@ -12,9 +12,10 @@ class InfoViewController < UIViewController
   end
 
   def buttonToGoBack
-    close_button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
+    close_button = UIButton.buttonWithType(UIButtonTypeCustom)
     close_button.setTitle("Back", forState:UIControlStateNormal)
-    close_button.setTitleColor(UIColor.darkGrayColor, forState: UIControlStateNormal)
+    close_button.titleLabel.font = UIFont.boldSystemFontOfSize(14)
+    close_button.setBackgroundImage( UIImage.imageNamed("btnBack"), forState:UIControlStateNormal)
     close_button.frame = [[20, 20], [60, 40]]
     close_button.addTarget(self, action:"close", forControlEvents:UIControlEventTouchUpInside)
     close_button
@@ -26,17 +27,21 @@ class InfoViewController < UIViewController
 
   def addInstructions
     labelOpts = {
-        :text            => "Stage 1: Picking the 3 man/woman. Roll one die until someone rolls a 3! \n\n" +
-                            "Stage 2: Go around the circle rolling 2 dice and drinking. When it gets back to the 3 man, " +
-                                      "click New Round to roll one die to pick a new 3 man starting at the player after the current 3 man.",
-        :font            => UIFont.boldSystemFontOfSize(14),
+        :text            => "Stage 1: Pick the 3 man/woman by rolling one die until someone rolls a 3! \n\n" +
+                            "Stage 2: Go clockwise around the circle rolling 2 dice and drinking according to the rules. When it gets back to the 3 man, " +
+                                      "click New Round to go back to Stage 1 starting at the player after the current 3 man. \n\n" +
+                            "Drinking Rules: The 3 man drinks every time a 3 is rolled or the two dice add up to 3. " +
+                                      "The person to the right of the roller drinks when the dice add up to 7, " +
+                                      "the roller drinks if the dice add up to 8 and the person to the left of the roller drinks when the dice add up to 9. " +
+                                      "If doubles are rolled, the roller doles out an extra number of drinks equal to the number on one of the dice.",
+        :font            => UIFont.boldSystemFontOfSize(13),
         :textColor       => UIColor.whiteColor,
         :lineBreakMode   => UILineBreakModeWordWrap,
         :numberOfLines   => 0,
         :backgroundColor => UIColor.clearColor
     }
 
-    label = UILabel.alloc.initWithFrame([[20, 80], [280, 300]])
+    label = UILabel.alloc.initWithFrame([[20, 60], [280, 340]])
     label.textAlignment = 0
     labelOpts.each { |k, v| label.send("#{k}=", v) }
     label

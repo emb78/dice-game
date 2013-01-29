@@ -39,7 +39,7 @@ class Game
       elsif dice1 == 3 or dice2 == 3
         explanation_text = '3 man drinks! '
       elsif dice1 == dice2
-        explanation_text += "You rolled doubles! Dole out #{dice1+dice2} drinks to any person/people of your choosing. "
+        explanation_text += "You rolled doubles! Dole out #{dice1} drinks to any person/people of your choosing. "
       end
 
       if dice1 + dice2 == 7
