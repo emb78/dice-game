@@ -80,12 +80,26 @@ class DiceViewController < UIViewController
 
         @explanation.text = explanation_text
 
+        if explanation_text.include?("You are the new 3 man")
+          play_a_tune
+        end
+
         UIView.animateWithDuration 1.0,
           animations: -> {
             @label.alpha = 1
             @label.transform = CGAffineTransformIdentity
           }
       }
+  end
+
+  def play_a_tune
+    local_file = NSURL.fileURLWithPath(File.join(NSBundle.mainBundle.resourcePath, 'applause3.wav'))
+    #source: http://www.wavsource.com/snds_2013-01-27_8534141789878153/sfx/applause3.wav
+    BubbleWrap::Media.play(local_file) do |media_player|
+      media_player.view.frame = [[0,0],[5,5]]
+      media_player.view.hidden = true
+      self.view.addSubview media_player.view
+    end
   end
 
   def newRound
