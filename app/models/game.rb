@@ -19,7 +19,7 @@ class Game
 
   def rolled3man dice1
     if dice1 == 3
-      explanation_text = 'You are the new 3 man! Pass to the next person to begin the round.'
+      explanation_text = 'You are the new 3 man! Pass to the next person to begin stage 2.'
       advance_game
     else
       explanation_text = "Who will be the next 3 man? Phew! It's not you. Pass and keep rolling!"

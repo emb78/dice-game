@@ -46,11 +46,13 @@ class DiceViewController < UIViewController
     if @game.choosing_3_man?
       dice_roll = @dice.randomAnswer
       animateRoll(dice_roll, nil, @game.rolled3man(dice_roll))
-      if dice_roll == 3
+    elsif @game.in_round?
+      if @second_dice_view.nil?
         @second_dice_view ||= makeSecondDiceImage
         view.addSubview(@second_dice_view)
+      elsif @second_dice_view.isHidden
+        @second_dice_view.hidden = false
       end
-    elsif @game.in_round?
       first_dice_roll = @dice.randomAnswer
       second_dice_roll = @dice.randomAnswer
       animateRoll(first_dice_roll, second_dice_roll, @game.rolled(first_dice_roll, second_dice_roll))
@@ -90,7 +92,7 @@ class DiceViewController < UIViewController
     animateRoll nil, nil, @game.restart
     @info_view_controller.view.removeFromSuperview
     if !@second_dice_view.nil?
-      @second_dice_view.removeFromSuperview
+      @second_dice_view.hidden = true
     end
   end
   
