@@ -60,6 +60,8 @@ class DiceViewController < UIViewController
   end
 
   def animateRoll first_dice_roll, second_dice_roll, explanation_text
+    play_dice_shake unless explanation_text.include?("First person to roll a three")
+
     UIView.animateWithDuration 0.5,
       animations: -> {
         @label.alpha = 0
@@ -81,7 +83,7 @@ class DiceViewController < UIViewController
         @explanation.text = explanation_text
 
         if explanation_text.include?("You are the new 3 man")
-          play_a_tune
+          play_applause
         end
 
         UIView.animateWithDuration 1.0,
@@ -92,14 +94,15 @@ class DiceViewController < UIViewController
       }
   end
 
-  def play_a_tune
-    local_file = NSURL.fileURLWithPath(File.join(NSBundle.mainBundle.resourcePath, 'applause3.wav'))
+  def play_applause
+    @applause_file ||= NSURL.fileURLWithPath(File.join(NSBundle.mainBundle.resourcePath, 'applause3.wav'))
     #source: http://www.wavsource.com/snds_2013-01-27_8534141789878153/sfx/applause3.wav
-    BubbleWrap::Media.play(local_file) do |media_player|
-      media_player.view.frame = [[0,0],[5,5]]
-      media_player.view.hidden = true
-      self.view.addSubview media_player.view
-    end
+    BubbleWrap::Media.play(@applause_file) { |media_player| }
+  end
+
+  def play_dice_shake
+    @dice_shake_file ||= NSURL.fileURLWithPath(File.join(NSBundle.mainBundle.resourcePath, 'Shake And Roll Dice.wav'))
+    BW::Media.play(@dice_shake_file) { |player| }
   end
 
   def newRound
